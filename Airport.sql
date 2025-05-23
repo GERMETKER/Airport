@@ -1,6 +1,7 @@
 CREATE DATABASE Airport
 
 use Airport
+/*
 go
 CREATE TABLE Flights(
 	id int identity(1,1) PRIMARY KEY not null,
@@ -39,6 +40,7 @@ CREATE TABLE Planes(
 	model nvarchar(max),
 );
 go
+*/
 
 INSERT INTO Flights (time_of_sending, time_of_arrival, place_of_sending, place_of_arrival, plane_model)
 VALUES ('2025-06-01 23:00:00', '2025-06-02 07:00:00', 'London', 'New York', 'Airbus'),
@@ -71,4 +73,34 @@ VALUES (250, 100, 'Airbus'),
 (250, 100, 'Airbus');
 
 
-SELECT time_of_sending, time_of_arrival, place_of_sending, place_of_arrival FROM Flights WHERE Flights.place_of_sending = 'New York'
+
+
+/*CREATE VIEW Timetable
+AS (
+SELECT time_of_sending, time_of_arrival, place_of_sending, place_of_arrival FROM Flights WHERE Flights.place_of_arrival = 'New York'
+)*/
+
+INSERT INTO Flights (time_of_sending, time_of_arrival, place_of_sending, place_of_arrival, plane_model)
+VALUES ('2025-07-01 23:00:00', '2025-07-02 07:00:00', 'Moscow', 'New York', 'Airbus');
+
+SELECT * FROM Timetable
+
+/*CREATE VIEW LondonsFlights
+AS (
+SELECT time_of_sending, time_of_arrival, place_of_sending, place_of_arrival FROM Flights WHERE Flights.place_of_sending = 'London'
+)*/
+
+SELECT * FROM LondonsFlights
+
+INSERT INTO Flights (time_of_sending, time_of_arrival, place_of_sending, place_of_arrival, plane_model)
+VALUES ('2025-07-01 23:00:00', '2025-07-02 07:00:00', 'London', 'Moscow', 'Airbus');
+
+CREATE VIEW BiletsAndPlaneId 
+AS (
+SELECT Planes.id, Bilets.id AS bilet_id, Bilets.flight_id, Bilets.bilet_type, Bilets.site_num AS planes_id FROM Planes JOIN Bilets
+ON Planes.id = Bilets.plane_id
+
+)
+
+SELECT * FROM Flights
+SELECT * FROM BiletsAndPlaneId
