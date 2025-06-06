@@ -1,15 +1,16 @@
 CREATE DATABASE Airport
 
 use Airport
-/*
+
+
 go
 CREATE TABLE Flights(
 	id int identity(1,1) PRIMARY KEY not null,
 	time_of_sending smalldatetime,
 	time_of_arrival smalldatetime,
-	place_of_sending nvarchar(max),
-	place_of_arrival nvarchar(max),
-	plane_model nvarchar(max),
+	place_of_sending nvarchar(max) not null,
+	place_of_arrival nvarchar(max) not null,
+	plane_model nvarchar(max) not null,
 
 );
 
@@ -26,8 +27,8 @@ CREATE TABLE Bilets(
 go
 CREATE TABLE Passangers(
 	id int identity(1,1) PRIMARY KEY not null,
-	[name] nvarchar(max),
-	surname nvarchar(max),
+	[name] nvarchar(max) not null,
+	surname nvarchar(max) not null,
 	bilet_id int,
 
 );
@@ -37,10 +38,10 @@ CREATE TABLE Planes(
 	id int identity(1,1) PRIMARY KEY not null,
 	count_of_econom_sites int,
 	count_of_business_sites int,
-	model nvarchar(max),
+	model nvarchar(max) not null,
 );
 go
-*/
+
 
 INSERT INTO Flights (time_of_sending, time_of_arrival, place_of_sending, place_of_arrival, plane_model)
 VALUES ('2025-06-01 23:00:00', '2025-06-02 07:00:00', 'London', 'New York', 'Airbus'),
@@ -95,12 +96,14 @@ SELECT * FROM LondonsFlights
 INSERT INTO Flights (time_of_sending, time_of_arrival, place_of_sending, place_of_arrival, plane_model)
 VALUES ('2025-07-01 23:00:00', '2025-07-02 07:00:00', 'London', 'Moscow', 'Airbus');
 
-CREATE VIEW BiletsAndPlaneId 
+/*CREATE VIEW BiletsAndPlaneId 
 AS (
 SELECT Planes.id, Bilets.id AS bilet_id, Bilets.flight_id, Bilets.bilet_type, Bilets.site_num AS planes_id FROM Planes JOIN Bilets
 ON Planes.id = Bilets.plane_id
 
-)
+)*/
 
-SELECT * FROM Flights
-SELECT * FROM BiletsAndPlaneId
+--SELECT * FROM Flights
+--SELECT * FROM BiletsAndPlaneId
+
+CREATE FULLTEXT INDEX ON Passangers([name], surname) KEY INDEX FIO;
